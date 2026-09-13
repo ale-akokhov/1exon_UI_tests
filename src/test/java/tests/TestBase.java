@@ -10,8 +10,11 @@ import org.aeonbits.owner.ConfigFactory;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.chrome.ChromeOptions;
 import pages.MainPage;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.codeborne.selenide.Selenide.closeWebDriver;
 import static org.openqa.selenium.logging.LogType.BROWSER;
@@ -21,6 +24,25 @@ public class TestBase {
     MainPage mainPage = new MainPage();
     static ProjectConfig config = ConfigFactory.create(ProjectConfig.class, System.getProperties());
     static String baseUrl = config.getBaseUrl();
+
+    static void setRemoteWebdriver() {
+        String remoteUrl = config.getRemoteUrl();
+        System.out.println(">>> remoteUrl = " + remoteUrl); // ← лог
+
+        ChromeOptions options = new ChromeOptions();
+
+        Map<String, Object> selenoidOptions = new HashMap<>();
+        selenoidOptions.put("enableVNC", true);
+        selenoidOptions.put("enableVideo", true);
+
+        options.setCapability("selenoid:options", selenoidOptions);
+
+        Configuration.browserCapabilities = options;
+        Configuration.remote = remoteUrl;
+
+        System.out.println(">>> Configuration.remote = " + Configuration.remote);
+    }
+
 
     @BeforeAll
     static void configure() {
@@ -47,13 +69,6 @@ public class TestBase {
         closeWebDriver();
     }
 
-    static void setRemoteWebdriver() {
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability("enableVNC", true);
-        capabilities.setCapability("enableVideo", true);
-        Configuration.browserCapabilities = capabilities;
-        Configuration.remote = config.getRemoteUrl();
-    }
 
     public static String getConsoleLogs() {
         return String.join("\n", Selenide.getWebDriverLogs(BROWSER));
