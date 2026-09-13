@@ -3,8 +3,8 @@ package config;
 import org.aeonbits.owner.Config;
 
 @Config.Sources({
-        "system:properties",
-        "classpath:config/system.properties"
+        "classpath:config/system.properties",
+        "system:properties"
 })
 
 public interface ProjectConfig extends Config {
