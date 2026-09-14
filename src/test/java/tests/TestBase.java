@@ -51,12 +51,9 @@ public class TestBase {
         Configuration.browserVersion = config.getBrowserVersion();
         Configuration.baseUrl = baseUrl;
 
-        System.out.println(">>> resource = " +
-                Thread.currentThread().getContextClassLoader().getResource("config/system.properties"));
-        System.out.println(">>> resource 2 = " +
-                TestBase.class.getClassLoader().getResource("config/system.properties"));
-
-        setRemoteWebdriver();
+        if (!System.getProperty("remoteUrl", "false").isEmpty()) {
+            setRemoteWebdriver();
+        }
 
         SelenideLogger.addListener("Allure Selenide", new AllureSelenide());
     }
