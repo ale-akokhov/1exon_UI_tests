@@ -27,7 +27,6 @@ public class TestBase {
 
     static void setRemoteWebdriver() {
         String remoteUrl = config.getRemoteUrl();
-        System.out.println(">>> remoteUrl = " + remoteUrl); // ← лог
 
         ChromeOptions options = new ChromeOptions();
 
@@ -39,8 +38,6 @@ public class TestBase {
 
         Configuration.browserCapabilities = options;
         Configuration.remote = remoteUrl;
-
-        System.out.println(">>> Configuration.remote = " + Configuration.remote);
     }
 
 
