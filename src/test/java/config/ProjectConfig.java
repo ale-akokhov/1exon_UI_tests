@@ -10,7 +10,7 @@ import org.aeonbits.owner.Config;
 public interface ProjectConfig extends Config {
 
     @Key("baseUrl")
-    @DefaultValue("https://1exon.ru/")
+    @DefaultValue("https://1exon.ru")
     String getBaseUrl();
 
     @Key("remoteUrl")

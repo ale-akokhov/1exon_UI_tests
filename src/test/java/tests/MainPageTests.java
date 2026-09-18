@@ -20,10 +20,10 @@ public class MainPageTests extends TestBase {
     @DisplayName("Проверка титульного названия страницы")
     void mainPageTitleTest() {
 
-        step(String.format("Открываем главную страницу сайта '%s'", config.getBaseUrl()), () ->
-                open(baseUrl));
+        step(String.format("Открыть главную страницу сайта '%s'", config.getBaseUrl()), () ->
+                open(config.getBaseUrl()));
 
-        step("Проверяем, что титульное название страницы содержит текст 'Экзон: Управление строительством'", () -> {
+        step("Проверить титульное название страницы", () -> {
             mainPage.checkMainPageTitle();
         });
     }
@@ -35,10 +35,10 @@ public class MainPageTests extends TestBase {
     @Story("Ошибки в логе консоли при работе сайта")
     @DisplayName("Проверка лога консоли страницы на наличие ошибок")
     void consoleShouldNotHaveErrorsTest() {
-        step(String.format("Открываем главную страницу сайта '%s'", config.getBaseUrl()), () ->
-                open(baseUrl));
+        step(String.format("Открыть главную страницу сайта '%s'", config.getBaseUrl()), () ->
+                open(config.getBaseUrl()));
 
-        step("Проверяем, что лог консоли не содержит текст: 'SEVERE'", () -> {
+        step("Проверить, что в логах консоли нет SEVERE-ошибок", () -> {
             mainPage.checkNoErrorsInLogs();
         });
     }
@@ -50,16 +50,14 @@ public class MainPageTests extends TestBase {
     @Story("Видимость текстовых элементов в навигационной панели")
     @DisplayName("Проверка видимости элементов в навигационной панели")
     void checkVisibilityOfHeaderElementsTest() {
-        step(String.format("Открываем главную страницу сайта '%s'", config.getBaseUrl()), () ->
-                open(baseUrl));
-
-        step("Закрываем попап", () -> {
+        step(String.format("Открыть главную страницу сайта '%s' и закрыть попап",
+                config.getBaseUrl()), () -> {
+            open(config.getBaseUrl());
             mainPage.closePopUp();
         });
 
-        step("Проверяем, что в навигационной панели отображаются текстовые элементы", () ->
-                mainPage.checkNavigationItems("Возможности", "О нас", "Кейсы",
-                        "Контакты", "Техподдержка", "sale@exon-group.ru", "Заказать звонок"));
+        step("Проверить, что в навигационной панели отображаются текстовые элементы", () ->
+                mainPage.checkNavigationItems());
     }
 
     @Test
@@ -69,18 +67,17 @@ public class MainPageTests extends TestBase {
     @Story("Проверка кликабельности кнопок в навигационной панели")
     @DisplayName("Проверка открытия и содержания модалки при нажатии кнопки 'Заказать звонок'")
     void callbackFormShouldOpenTest() {
-        step(String.format("Открываем главную страницу сайта '%s'", config.getBaseUrl()), () ->
-                open(baseUrl));
-
-        step("Закрываем попап", () -> {
+        step(String.format("Открыть главную страницу сайта '%s' и закрыть попап",
+                config.getBaseUrl()), () -> {
+            open(config.getBaseUrl());
             mainPage.closePopUp();
         });
 
-        step("Кликаем по кнопке 'Заказать звонок'", () ->
-                mainPage.clickCallbackButton());
-
-        step("Проверяем, что модалка открывается, и в ней отображаются все поля формы", () ->
-                mainPage.checkCallbackFormVisible());
+        step("Нажать на кнопку 'Заказать звонок'. " +
+                "Проверить, что открылась модалка со всеми полями", () -> {
+            mainPage.clickCallbackButton();
+            mainPage.checkCallbackFormVisible();
+        });
     }
 
     @Test
@@ -90,18 +87,15 @@ public class MainPageTests extends TestBase {
     @Story("Проверка кликабельности кнопок на главной странице")
     @DisplayName("Проверка открытия формы 'Опросный лист ПО ЭКЗОН'")
     void surveyShouldOpenTest() {
-        step(String.format("Открываем главную страницу сайта '%s'", config.getBaseUrl()), () ->
-                open(baseUrl));
-
-        step("Закрываем попап", () -> {
+        step(String.format("Открыть главную страницу сайта '%s' и закрыть попап",
+                config.getBaseUrl()), () -> {
+            open(config.getBaseUrl());
             mainPage.closePopUp();
         });
 
-        step("Кликаем по кнопке 'Опросный лист'", () ->
-                mainPage.clickSurveyButton());
-
-        step("Проверяем, что открывается Опросный лист ПО ЭКЗОН", () ->
-                mainPage.checkSurveyPageName());
+        step("Открыть 'Опросный лист ПО ЭКЗОН' и проверить заголовок страницы", () -> {
+            mainPage.clickSurveyButton();
+            mainPage.checkSurveyPageName();
+        });
     }
-
 }

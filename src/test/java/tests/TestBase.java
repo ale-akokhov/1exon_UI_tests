@@ -23,10 +23,12 @@ public class TestBase {
 
     MainPage mainPage = new MainPage();
     static ProjectConfig config = ConfigFactory.create(ProjectConfig.class, System.getProperties());
-    static String baseUrl = config.getBaseUrl();
 
     static void setRemoteWebdriver() {
         String remoteUrl = config.getRemoteUrl();
+        if (remoteUrl == null || remoteUrl.isEmpty()) {
+            return;
+        }
 
         ChromeOptions options = new ChromeOptions();
 
@@ -46,9 +48,9 @@ public class TestBase {
         Configuration.browser = config.getBrowser();
         Configuration.browserSize = config.getBrowserSize();
         Configuration.browserVersion = config.getBrowserVersion();
-        Configuration.baseUrl = baseUrl;
+        Configuration.baseUrl = config.getBaseUrl();
 
-        if (!System.getProperty("remoteUrl", "false").isEmpty()) {
+        if (config.getRemoteUrl() != null && !config.getRemoteUrl().isEmpty()) {
             setRemoteWebdriver();
         }
 
