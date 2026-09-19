@@ -1,9 +1,9 @@
 package helpers;
 
 import com.codeborne.selenide.Selenide;
+import io.qameta.allure.Attachment;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-import io.qameta.allure.Attachment;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.MalformedURLException;
@@ -14,6 +14,7 @@ import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static org.openqa.selenium.logging.LogType.BROWSER;
 
 public class AllureAttachments {
+
     @Attachment(value = "{attachName}", type = "text/plain")
     public static String attachAsText(String attachName, String message) {
         return message;
@@ -29,11 +30,21 @@ public class AllureAttachments {
         return ((TakesScreenshot) getWebDriver()).getScreenshotAs(OutputType.BYTES);
     }
 
-    public static void browserConsoleLogs() {
-        attachAsText(
-                "Browser console logs",
-                String.join("\n", Selenide.getWebDriverLogs(BROWSER))
-        );
+    @Attachment(value = "Browser console logs", type = "text/plain")
+    public static String browserConsoleLogs() {
+        try {
+            var logs = getWebDriver().manage().logs().get(BROWSER).getAll();
+
+            if (logs.isEmpty()) {
+                return "Ошибок в консоли не найдено";
+            }
+
+            return logs.stream()
+                    .map(log -> log.getLevel() + ": " + log.getMessage())
+                    .reduce("", (a, b) -> a + "\n" + b);
+        } catch (Exception e) {
+            return "Не удалось собрать логи: " + e.getMessage();
+        }
     }
 
     @Attachment(value = "Video", type = "text/html", fileExtension = ".html")
@@ -45,7 +56,6 @@ public class AllureAttachments {
 
     public static URL getVideoUrl(String sessionId) {
         String videoUrl = "https://selenoid.qa.guru/video/" + sessionId + ".mp4";
-
         try {
             return new URL(videoUrl);
         } catch (MalformedURLException e) {
@@ -54,7 +64,7 @@ public class AllureAttachments {
         return null;
     }
 
-    public static String getSessionId(){
+    public static String getSessionId() {
         return ((RemoteWebDriver) getWebDriver()).getSessionId().toString();
     }
 }

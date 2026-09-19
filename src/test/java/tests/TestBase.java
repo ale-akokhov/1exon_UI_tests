@@ -12,11 +12,14 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.logging.LogType;
+import org.openqa.selenium.logging.LoggingPreferences;
 import pages.MainPage;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 import static com.codeborne.selenide.Selenide.closeWebDriver;
 import static org.openqa.selenium.logging.LogType.BROWSER;
@@ -28,22 +31,34 @@ public class TestBase {
 
     static void setRemoteWebdriver() {
         String remoteUrl = config.getRemoteUrl();
-        if (remoteUrl == null || remoteUrl.isEmpty()) return;
+        if (remoteUrl == null || remoteUrl.isEmpty()) {
+            return;
+        }
 
+        MutableCapabilities options = config.getBrowser().equalsIgnoreCase("edge")
+                ? new EdgeOptions()
+                : new ChromeOptions();
+
+        // Логирование браузера
+        LoggingPreferences logPrefs = new LoggingPreferences();
+        logPrefs.enable(LogType.BROWSER, Level.ALL);
+
+        if (config.getBrowser().equalsIgnoreCase("edge")) {
+            options.setCapability("ms:loggingPrefs", logPrefs);
+        } else {
+            options.setCapability("goog:loggingPrefs", logPrefs);
+        }
+
+        // Selenoid
         Map<String, Object> selenoidOptions = new HashMap<>();
         selenoidOptions.put("enableVNC", true);
         selenoidOptions.put("enableVideo", true);
-
-        MutableCapabilities options = config.getBrowser().equalsIgnoreCase("firefox")
-                ? new FirefoxOptions()
-                : new ChromeOptions();
-
+        selenoidOptions.put("enableLog", true);
         options.setCapability("selenoid:options", selenoidOptions);
 
         Configuration.browserCapabilities = options;
         Configuration.remote = remoteUrl;
     }
-
 
     @BeforeAll
     static void configure() {
@@ -72,9 +87,7 @@ public class TestBase {
         closeWebDriver();
     }
 
-
     public static String getConsoleLogs() {
         return String.join("\n", Selenide.getWebDriverLogs(BROWSER));
     }
-
 }
