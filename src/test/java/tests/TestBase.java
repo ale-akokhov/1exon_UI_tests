@@ -10,7 +10,9 @@ import org.aeonbits.owner.ConfigFactory;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import pages.MainPage;
 
 import java.util.HashMap;
@@ -26,15 +28,15 @@ public class TestBase {
 
     static void setRemoteWebdriver() {
         String remoteUrl = config.getRemoteUrl();
-        if (remoteUrl == null || remoteUrl.isEmpty()) {
-            return;
-        }
-
-        ChromeOptions options = new ChromeOptions();
+        if (remoteUrl == null || remoteUrl.isEmpty()) return;
 
         Map<String, Object> selenoidOptions = new HashMap<>();
         selenoidOptions.put("enableVNC", true);
         selenoidOptions.put("enableVideo", true);
+
+        MutableCapabilities options = config.getBrowser().equalsIgnoreCase("firefox")
+                ? new FirefoxOptions()
+                : new ChromeOptions();
 
         options.setCapability("selenoid:options", selenoidOptions);
 
