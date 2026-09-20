@@ -62,18 +62,3 @@ test {
         events "passed", "skipped", "failed"
     }
 }
-
-tasks.register('allureEnvironment') {
-    doLast {
-        def envFile = file("$buildDir/allure-results/environment.properties")
-        envFile.parentFile.mkdirs()
-        envFile.text = """\
-            Browser_Name=${System.getProperty('browser', 'chrome')}
-            Browser_Version=${System.getProperty('browserVersion', '152')}
-        """.stripIndent()
-    }
-}
-
-tasks.named('allureReport') {
-    dependsOn 'allureEnvironment'
-}
