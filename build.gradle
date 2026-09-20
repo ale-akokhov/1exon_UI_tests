@@ -57,7 +57,7 @@ tasks.withType(JavaCompile) {
 test {
     useJUnitPlatform()
     systemProperties(System.getProperties())
-    systemProperty 'allure.results.directory', "$buildDir/allure-results"
+    systemProperty("allure.results.directory", "build/allure-results")
     testLogging {
         events "passed", "skipped", "failed"
     }
