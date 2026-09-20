@@ -62,3 +62,23 @@ test {
         events "passed", "skipped", "failed"
     }
 }
+
+tasks.register('allureEnvironment') {
+    doLast {
+        def props = new Properties()
+        def propsFile = file("src/test/resources/config/system.properties")
+        if (propsFile.exists()) {
+            propsFile.withInputStream { props.load(it) }
+        }
+
+        def browser = System.getProperty('browser') ?: props.getProperty('browser', 'chrome')
+        def browserVersion = System.getProperty('browserVersion') ?: props.getProperty('browserVersion', '152')
+
+        def envFile = file("$buildDir/allure-results/environment.properties")
+        envFile.parentFile.mkdirs()
+        envFile.text = """\
+            Browser_Name=${browser}
+            Browser_Version=${browserVersion}
+        """.stripIndent()
+    }
+}
