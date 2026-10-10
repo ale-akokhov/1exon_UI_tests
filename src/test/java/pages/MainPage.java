@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static tests.TestBase.getConsoleLogs;
+import static tests.web.WebTestBase.getConsoleLogs;
 
 public class MainPage {
 

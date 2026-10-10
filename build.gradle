@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'io.qameta.allure' version '4.0.1'
+    id 'io.freefair.lombok' version '9.5.0'
 }
 
 group = 'guru.qa'
@@ -15,7 +16,11 @@ def allureVersion = "2.25.0",
     slf4jVersion = "2.0.16",
     junitVersion = "5.11.4",
     ownerVersion = "1.0.12",
-    assertjCoreVersion = "3.27.7"
+    assertjCoreVersion = "3.27.7",
+    hamcrestVersion = "3.0",
+    restAssuredVersion = "5.5.0",
+    jsonassertVersion = "1.5.3",
+    databindVersion = "2.17.1"
 
 
 allure {
@@ -43,7 +48,11 @@ dependencies {
             "io.qameta.allure:allure-rest-assured:$allureVersion",
             "org.slf4j:slf4j-simple:$slf4jVersion",
             "org.aeonbits.owner:owner:$ownerVersion",
-            "org.assertj:assertj-core:$assertjCoreVersion"
+            "org.assertj:assertj-core:$assertjCoreVersion",
+            "org.hamcrest:hamcrest:$hamcrestVersion",
+            "io.rest-assured:rest-assured:$restAssuredVersion",
+            "org.skyscreamer:jsonassert:$jsonassertVersion",
+            "com.fasterxml.jackson.core:jackson-databind:$databindVersion"
 
     )
 

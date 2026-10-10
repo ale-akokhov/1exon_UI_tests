@@ -3,15 +3,16 @@ package config;
 import org.aeonbits.owner.Config;
 
 @Config.Sources({
-        "classpath:config/system.properties",
+        "classpath:config/web.properties",
+        "classpath:config/api.properties",
         "system:properties"
 })
 
 public interface ProjectConfig extends Config {
 
-    @Key("baseUrl")
+    @Key("UIbaseUrl")
     @DefaultValue("https://1exon.ru")
-    String getBaseUrl();
+    String getUIBaseUrl();
 
     @Key("remoteUrl")
     String getRemoteUrl();
@@ -27,4 +28,19 @@ public interface ProjectConfig extends Config {
     @Key("browserVersion")
     @DefaultValue("155")
     String getBrowserVersion();
+
+
+    @Key("apiBaseUrl")
+    @DefaultValue("https://reqres.in/api")
+    String getApiBaseUrl();
+
+    @Key("apiKey")
+    String getApiKey();
+
+    @Key("apiLogin")
+    String getApiLogin();
+
+    @Key("apiPassword")
+    String getApiPassword();
+
 }

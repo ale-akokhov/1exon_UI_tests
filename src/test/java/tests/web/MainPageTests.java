@@ -1,4 +1,4 @@
-package tests;
+package tests.web;
 
 import io.qameta.allure.Feature;
 import io.qameta.allure.Owner;
@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import static com.codeborne.selenide.Selenide.*;
 import static io.qameta.allure.Allure.step;
 
-public class MainPageTests extends TestBase {
+public class MainPageTests extends WebTestBase {
 
     @Test
     @Tag("smoke")
@@ -20,8 +20,8 @@ public class MainPageTests extends TestBase {
     @DisplayName("Проверка титульного названия страницы")
     void mainPageTitleTest() {
 
-        step(String.format("Открыть главную страницу сайта '%s'", config.getBaseUrl()), () ->
-                open(config.getBaseUrl()));
+        step(String.format("Открыть главную страницу сайта '%s'", config.getUIBaseUrl()), () ->
+                open(config.getUIBaseUrl()));
 
         step("Проверить титульное название страницы", () -> {
             mainPage.checkMainPageTitle();
@@ -35,8 +35,8 @@ public class MainPageTests extends TestBase {
     @Story("Ошибки в логе консоли при работе сайта")
     @DisplayName("Проверка лога консоли страницы на наличие ошибок")
     void consoleShouldNotHaveErrorsTest() {
-        step(String.format("Открыть главную страницу сайта '%s'", config.getBaseUrl()), () ->
-                open(config.getBaseUrl()));
+        step(String.format("Открыть главную страницу сайта '%s'", config.getUIBaseUrl()), () ->
+                open(config.getUIBaseUrl()));
 
         step("Проверить, что в логах консоли нет SEVERE-ошибок", () -> {
             mainPage.checkNoErrorsInLogs();
@@ -51,8 +51,8 @@ public class MainPageTests extends TestBase {
     @DisplayName("Проверка видимости элементов в навигационной панели")
     void checkVisibilityOfHeaderElementsTest() {
         step(String.format("Открыть главную страницу сайта '%s' и закрыть попап",
-                config.getBaseUrl()), () -> {
-            open(config.getBaseUrl());
+                config.getUIBaseUrl()), () -> {
+            open(config.getUIBaseUrl());
             mainPage.closePopUp();
         });
 
@@ -68,8 +68,8 @@ public class MainPageTests extends TestBase {
     @DisplayName("Проверка открытия и содержания модалки при нажатии кнопки 'Заказать звонок'")
     void callbackFormShouldOpenTest() {
         step(String.format("Открыть главную страницу сайта '%s' и закрыть попап",
-                config.getBaseUrl()), () -> {
-            open(config.getBaseUrl());
+                config.getUIBaseUrl()), () -> {
+            open(config.getUIBaseUrl());
             mainPage.closePopUp();
         });
 
@@ -88,8 +88,8 @@ public class MainPageTests extends TestBase {
     @DisplayName("Проверка открытия формы 'Опросный лист ПО ЭКЗОН'")
     void surveyShouldOpenTest() {
         step(String.format("Открыть главную страницу сайта '%s' и закрыть попап",
-                config.getBaseUrl()), () -> {
-            open(config.getBaseUrl());
+                config.getUIBaseUrl()), () -> {
+            open(config.getUIBaseUrl());
             mainPage.closePopUp();
         });
 

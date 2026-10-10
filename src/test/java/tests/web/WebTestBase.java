@@ -1,4 +1,4 @@
-package tests;
+package tests.web;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
@@ -24,7 +24,7 @@ import java.util.logging.Level;
 import static com.codeborne.selenide.Selenide.closeWebDriver;
 import static org.openqa.selenium.logging.LogType.BROWSER;
 
-public class TestBase {
+public class WebTestBase {
 
     MainPage mainPage = new MainPage();
     static ProjectConfig config = ConfigFactory.create(ProjectConfig.class, System.getProperties());
@@ -63,7 +63,7 @@ public class TestBase {
         Configuration.browser = config.getBrowser();
         Configuration.browserSize = config.getBrowserSize();
         Configuration.browserVersion = config.getBrowserVersion();
-        Configuration.baseUrl = config.getBaseUrl();
+        Configuration.baseUrl = config.getUIBaseUrl();
 
         if (config.getRemoteUrl() != null && !config.getRemoteUrl().isEmpty()) {
             setRemoteWebdriver();
