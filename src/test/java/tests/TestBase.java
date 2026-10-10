@@ -39,7 +39,6 @@ public class TestBase {
                 ? new EdgeOptions()
                 : new ChromeOptions();
 
-        // Логирование браузера
         LoggingPreferences logPrefs = new LoggingPreferences();
         logPrefs.enable(LogType.BROWSER, Level.ALL);
 
@@ -49,7 +48,6 @@ public class TestBase {
             options.setCapability("goog:loggingPrefs", logPrefs);
         }
 
-        // Selenoid
         Map<String, Object> selenoidOptions = new HashMap<>();
         selenoidOptions.put("enableVNC", true);
         selenoidOptions.put("enableVideo", true);
