@@ -13,7 +13,7 @@ import static io.qameta.allure.Allure.step;
 public class MainPageTests extends WebTestBase {
 
     @Test
-    @Tag("smoke")
+    @Tag("web")
     @Owner("aakokhov")
     @Feature("Титульное название страницы")
     @Story("Веб адрес страницы")
@@ -29,7 +29,7 @@ public class MainPageTests extends WebTestBase {
     }
 
     @Test
-    @Tag("smoke")
+    @Tag("web")
     @Owner("aakokhov")
     @Feature("Логи консоли")
     @Story("Ошибки в логе консоли при работе сайта")
@@ -44,7 +44,7 @@ public class MainPageTests extends WebTestBase {
     }
 
     @Test
-    @Tag("smoke")
+    @Tag("web")
     @Owner("aakokhov")
     @Feature("Навигационная панель")
     @Story("Видимость текстовых элементов в навигационной панели")
@@ -61,7 +61,7 @@ public class MainPageTests extends WebTestBase {
     }
 
     @Test
-    @Tag("smoke")
+    @Tag("web")
     @Owner("aakokhov")
     @Feature("Навигационная панель")
     @Story("Проверка кликабельности кнопок в навигационной панели")
@@ -81,7 +81,7 @@ public class MainPageTests extends WebTestBase {
     }
 
     @Test
-    @Tag("smoke")
+    @Tag("web")
     @Owner("aakokhov")
     @Feature("Главная страница")
     @Story("Проверка кликабельности кнопок на главной странице")

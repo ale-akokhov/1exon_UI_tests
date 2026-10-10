@@ -1,34 +1,43 @@
 package tests.api;
 
+import io.qameta.allure.Feature;
+import io.qameta.allure.Owner;
+import io.qameta.allure.Story;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import tests.api.models.LoginBodyLombokModel;
+import tests.api.models.LoginResponseLombokModel;
 
-import static helpers.CustomApiListener.withCustomTemplates;
 import static io.restassured.RestAssured.given;
-import static io.restassured.http.ContentType.JSON;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThat;
+import static tests.api.specs.LoginSpecs.loginRequestSpec;
+import static tests.api.specs.LoginSpecs.loginResponseSpec;
 
-public class ReqresInTests {
+
+public class ReqresInTests extends ApiTestBase {
 
     @Test
-    void loginTest(){
+    @Tag("api")
+    @Owner("aakokhov")
+    @Feature("Авторизация")
+    @Story("Успешная авторизация")
+    @DisplayName("Проверка успешной авторизации пользователя")
+    void loginWithSpecsTest() {
+        LoginBodyLombokModel body = new LoginBodyLombokModel();
+        body.setEmail("eve.holt@reqres.in");
+        body.setPassword("cityslicka");
 
-        String body = " { \"email\": \"eve.holt@reqres.in\", " +
-                "\"password\": \"cityslicka\" }"; // todo bad practice
-
-        given()
-                .log().uri()
-                .log().body()
-                .contentType(JSON)
-                .header("x-api-key", "free_user_3HEWO04M9ZkzbAYcEuV4djhoXDn")
+        LoginResponseLombokModel response = given()
+                .spec(loginRequestSpec)
                 .body(body)
                 .when()
-                .post("https://reqres.in/api/login")
+                .post()
                 .then()
-                .log().status()
-                .log().body()
-                .statusCode(200)
-                .body("token", is("QpwL5tke4Pnpja7X4"));
+                .spec(loginResponseSpec)
+                .extract()
+                .as(LoginResponseLombokModel.class);
 
+        assertThat(response.getToken()).isEqualTo("QpwL5tke4Pnpja7X4");
     }
-
 }

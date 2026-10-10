@@ -3,13 +3,14 @@ package config;
 import org.aeonbits.owner.Config;
 
 @Config.Sources({
-        "classpath:config/web.properties",
-        "classpath:config/api.properties",
+        "classpath:config/project-local.properties",
+        "classpath:config/project.properties",
         "system:properties"
 })
 
 public interface ProjectConfig extends Config {
 
+    // === UI ===
     @Key("UIbaseUrl")
     @DefaultValue("https://1exon.ru")
     String getUIBaseUrl();
@@ -29,18 +30,11 @@ public interface ProjectConfig extends Config {
     @DefaultValue("155")
     String getBrowserVersion();
 
-
+    // === API ===
     @Key("apiBaseUrl")
-    @DefaultValue("https://reqres.in/api")
+    @DefaultValue("https://reqres.in")
     String getApiBaseUrl();
 
     @Key("apiKey")
     String getApiKey();
-
-    @Key("apiLogin")
-    String getApiLogin();
-
-    @Key("apiPassword")
-    String getApiPassword();
-
 }
